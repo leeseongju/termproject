@@ -1,11 +1,12 @@
 {
-  "name": "14_posts",
+  "name": "leeseongju",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcryptjs": "^2.3.0",
     "body-parser": "~1.13.1",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^0.8.2",
@@ -19,6 +20,10 @@
     "moment": "^2.10.6",
     "mongoose": "^4.2.9",
     "morgan": "~1.6.1",
+    "node-sass-middleware": "0.8.0",
+    "passport": "^0.3.0",
+    "passport-facebook": "^2.0.0",
+    "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
