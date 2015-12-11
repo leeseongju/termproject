@@ -3,18 +3,21 @@ extends ../layout
 block content
   h1 글 작성
   
-  form(action='/posts', method='POST')
+  form(action='/surveys', method='POST')
     .form-group
       label(for='email') 이메일
       input.form-control(name='email')
     .form-group
-      label(for='title') 제목
+      label(for='title') 설문명
       input.form-control(name='title')
     .form-group
-      label(for='content') 내용
+      label(for='type') 설문종류
+      input.form-control(name='type')
+    .form-group
+      label(for='content') 설문설명
       textarea.form-control(name='content')
     .form-action
       a.btn.btn-default(href='javascript:window.history.back();') 뒤로 
       | &nbsp;
-      button.btn.btn-primary(type='submit') 글작성 
+      button.btn.btn-primary(type='submit') 설문 작성
   

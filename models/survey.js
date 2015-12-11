@@ -7,12 +7,13 @@ var schema = new Schema({
   email: {type: String, required: true, trim: true},
   content: {type: String, required: true, trim: true},
   numComment: {type: Number, default: 0},
-  createdAt: {type: Date, default: Date.now}
+  createdAt: {type: Date, default: Date.now},
+  type: {type: String, required: true, trim: true}
 }, {
   toJSON: {virtuals: true },
   toObject: {virtuals: true}
 });
 
-var Post = mongoose.model('Post', schema);
+var Survey = mongoose.model('Survey', schema);
 
-module.exports = Post;
+module.exports = Survey;

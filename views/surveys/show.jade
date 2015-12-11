@@ -1,12 +1,12 @@
 extends ../layout
 
 block content
-  h1= post.title
-  h3 by #{post.email}
-  .well= post.content
+  h1= survey.title
+  h3 by #{survey.email}
+  .well= survey.content
 
   hr
-  h3 Comment (#{post.numComment})
+  h3 Comment (#{survey.numComment})
   table.table
     tr
       th email
@@ -18,14 +18,14 @@ block content
         td= comment.content
         td= moment(comment.createdAt).format('YYYY/MM/DD')
 
-  form.form-inline(action='/posts/' + post._id + '/comments', method='POST')
+  form.form-inline(action='/surveys/' + survey._id + '/comments', method='POST')
     .form-group
       label.sr-only(for='email') email
       input.form-control(name='email', placeholder='email')
     .form-group
       label.sr-only(for='content') content
       input.form-control(name='content', size=50, placeholder='content')
-    button.btn.btn-info 댓글저장
+    button.btn.btn-info 설문 답변하기
 
   hr
-  a.btn.btn-default(href='/posts') 목록
+  a.btn.btn-default(href='/surveys') 목록

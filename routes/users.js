@@ -3,12 +3,12 @@ var express = require('express'),
 var router = express.Router();
 
 function needAuth(req, res, next) {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    req.flash('danger', '로그인이 필요합니다.');
-    res.redirect('/signin');
-  }
+    if (req.session.user) {
+      next();
+    } else {
+      req.flash('danger', '로그인이 필요합니다.');
+      res.redirect('/signin');
+    }
 }
 
 function validateForm(form, options) {
@@ -87,7 +87,7 @@ router.put('/:id', function(req, res, next) {
     user.name = req.body.name;
     user.email = req.body.email;
     if (req.body.password) {
-      user.password = user.generateHash(req.body.password);
+      user.password = req.body.password;
     }
 
     user.save(function(err) {
@@ -131,17 +131,17 @@ router.post('/', function(req, res, next) {
     }
     if (user) {
       req.flash('danger', '동일한 이메일 주소가 이미 존재합니다.');
-      return res.redirect('back');
+      res.redirect('back');
     }
     var newUser = new User({
       name: req.body.name,
       email: req.body.email,
     });
-    newUser.password = newUser.generateHash(req.body.password);
+    newUser.password = req.body.password;
 
     newUser.save(function(err) {
       if (err) {
-        next(err);
+        return next(err);
       } else {
         req.flash('success', '가입이 완료되었습니다. 로그인 해주세요.');
         res.redirect('/');

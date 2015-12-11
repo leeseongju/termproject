@@ -13,7 +13,7 @@ var configAuth = require('./config/auth');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var posts = require('./routes/posts');
+var surveys = require('./routes/surveys');
 var routeAuth = require('./routes/auth');
 
 var app = express();
@@ -38,34 +38,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(methodOverride('_method', {methods: ['POST', 'GET']}));
 
-app.use(express.static(path.join(__dirname, 'public')));
-var MongoStore = require('connect-mongo')(session);
-app.sessionStore = new MongoStore({mongooseConnection: mongoose.connection});
-
 app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: 'long-long-long-secret-string-1313513tefgwdsvbjkvasd',
 }));
 app.use(flash());
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(path.join(__dirname, '/bower_components')));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
+configAuth(passport);
 app.use(function(req, res, next) {
-  console.log("REQ USER", req.user);
-  res.locals.currentUser = req.user;
+  res.locals.currentUser = req.session.user;
   res.locals.flashMessages = req.flash();
   next();
 });
 
-configAuth(passport);
-
 app.use('/', routes);
 app.use('/users', users);
-app.use('/posts', posts);
+app.use('/surveys', surveys);
 routeAuth(app, passport);
 
 // catch 404 and forward to error handler

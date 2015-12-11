@@ -1,5 +1,5 @@
 var express = require('express'),
-    posts = require('./posts'),
+    surveys = require('./surveys'),
     User = require('../models/User');
 var router = express.Router();
 
@@ -25,7 +25,7 @@ router.post('/signin', function(req, res, next) {
     } else {
       req.session.user = user;
       req.flash('success', '로그인 되었습니다.');
-      res.redirect('/posts');
+      res.redirect('/surveys');
     }
   });
 });
@@ -35,6 +35,6 @@ router.get('/signout', function(req, res, next) {
   req.flash('success', '로그아웃 되었습니다.');
   res.redirect('/');
 });
-router.use('/posts', posts);
+router.use('/surveys', surveys);
 
 module.exports = router;

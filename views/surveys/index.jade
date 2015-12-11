@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  h1 설문 목록
+  
+  table.table
+    tr
+      th 설문 제목
+      th 설문 작성자
+      th 설문 응답
+      th 설문 작성일
+    each survey in surveys
+      tr
+        td
+          a(href='/surveys/#{survey.id}')= survey.title
+        td= survey.email
+        td= survey.numComment
+        td= moment(survey.createdAt).format('YYYY/MM/DD')
+
+
+  a.btn.btn-primary(href='/surveys/new') 설문 작성
