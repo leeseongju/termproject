@@ -19,12 +19,8 @@ router.get('/', needAuth, function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.render('surveys/index', {surveys: docs});
+    res.render('results/index', {surveys: docs});
   });
-});
-
-router.get('/new', function(req, res, next) {
-  res.render('surveys/new');
 });
 
 router.post('/', function(req, res, next) {
@@ -40,7 +36,7 @@ router.post('/', function(req, res, next) {
   });
 
   router.get('/', needAuth, function(req, res, next) {
-    res.render('/surveys');
+    res.render('/results');
   });
 
   module.exports = router;
@@ -48,7 +44,7 @@ router.post('/', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect('/surveys');
+    res.redirect('/results');
   });
 });
 
@@ -61,11 +57,10 @@ router.get('/:id', function(req, res, next) {
       if (err) {
         return next(err);
       }
-      res.render('surveys/show', {survey: survey, comments: comments});
+      res.render('results/show', {survey: survey, comments: comments});
     });
   });
 });
-
 router.get('/:id', function(req, res, next) {
   Survey.findById(req.params.id, function(err, survey) {
     if (err) {
@@ -76,61 +71,6 @@ router.get('/:id', function(req, res, next) {
         return next(err);
       }
       res.render('surveys/show', {survey: survey, answers: answers});
-    });
-  });
-});
-
-router.put('/:id', function(req, res, next) {
-  Survey.findById(req.params.id, function(err, survey) {
-    if (err) {
-      return next(err);
-    }
-    if (req.body.password === survey.password) {
-      survey.email = req.body.email;
-      survey.title = req.body.title;
-      survey.content = req.body.content;
-      survey.save(function(err) {
-        res.redirect('/surveys/' + req.params.id);
-      });
-    }
-    res.redirect('back');
-  });
-});
-
-router.delete('/:id', function(req, res, next) {
-  Survey.findOneAndRemove(req.params.id, function(err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect('/surveys/');
-  });
-});
-router.get('/:id/edit', function(req, res, next) {
-  Survey.findById(req.params.id, function(err, survey) {
-    if (err) {
-      return next(err);
-    }
-    res.render('surveys/edit', {survey: survey});
-  });
-});
-
-
-router.post('/:id/comments', function(req, res, next) {
-  var comment = new Comment({
-    survey: req.params.id,
-    email: req.body.email,
-    content: req.body.content
-  });
-
-  comment.save(function(err) {
-    if (err) {
-      return next(err);
-    }
-    Survey.findByIdAndUpdate(req.params.id, {$inc: {numComment: 1}}, function(err) {
-      if (err) {
-        return next(err);
-      }
-      res.redirect('/surveys/' + req.params.id);
     });
   });
 });

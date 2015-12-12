@@ -1,0 +1,17 @@
+extends ../layout
+    
+block content
+  .container
+    h1= survey.title
+    h3 Answer (#{survey.numAnswer})
+      table.table
+        tr
+          th answer
+          th time
+        each answer in answers
+            tr
+              td= answer.answer
+              td= moment(answer.createdAt).format('YYYY/MM/DD')
+            
+    hr
+    a.btn.btn-default(href='/results') 목록 

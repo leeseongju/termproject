@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+ .container
+  h1 설문 결과
+
+  table.table
+    tr
+      th 설문제목
+      th 설문 작성자
+      th 설문유형
+      th 설문 응답
+      th 설문에 대한 의견
+      th 설문 작성일
+      th 설문 결과확인
+    each survey in surveys
+      tr
+        td= survey.title
+        td= survey.email
+        td= survey.type
+        td= survey.numAnswer
+        td= survey.numComment
+        td= moment(survey.createdAt).format('YYYY/MM/DD')
+        td
+            a.btn.btn-primary(href='/results/#{survey.id}') 결과확인
+  

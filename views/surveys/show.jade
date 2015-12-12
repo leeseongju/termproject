@@ -1,9 +1,60 @@
 extends ../layout
 
 block content
+ .container
   h1= survey.title
   h3 by #{survey.email}
+
   .well= survey.content
+  
+  table.table
+    tr
+      th #{survey.type}
+
+  #survey.type
+   case survey.type
+     when '단일선택 객관식'  
+      form.form-inline(action='/surveys/' + survey._id + '/answers', method='POST')
+       .form-group
+          label(for='answer')
+            option(value='answer1')  #{survey.category1}
+            input(type='radio',name='answer',value='answer1')
+            option(value='answer2') #{survey.category2}
+            input(type='radio',name='answer',value='answer2')
+            option(value='answer3') #{survey.category3}
+            input(type='radio',name='answer',value='answer3')
+            option(value='answer4') #{survey.category4}
+            input(type='radio',name='answer',value='answer4') 
+          button.btn.btn-info 설문 응답하기
+          
+     when '중복선택 객관식' 
+       form.form-inline(action='/surveys/' + survey._id + '/answers', method='POST')
+        .form-group
+           label(for='answer')
+             option(value='answer1')  #{survey.category1}
+             input(type='checkbox',name='answer',value='answer1')
+             option(value='answer2') #{survey.category2}
+             input(type='checkbox',name='answer',value='answer2')
+             option(value='answer3') #{survey.category3}
+             input(type='checkbox',name='answer',value='answer3')
+             option(value='answer4') #{survey.category4}
+             input(type='checkbox',name='answer',value='answer4')
+           button.btn.btn-info 설문응답하기       
+    
+     when '단답형' 
+      form.form-inline(action='/surveys/' + survey._id + '/answers', method='POST')
+       .form-group
+         label(for='answer')
+         input(type='text',name='answer',placeholder='여기에 입력해주세요')
+       button.btn.btn-info 설문응답하기
+          
+     when '의견형' 
+      form.form-inline(action='/surveys/' + survey._id + '/answers', method='POST')
+        .form-group
+          label(for='answer') 입력란
+          textarea.form-control(name='answer',rows='10',placeholder='여기에 입력해주세요') 
+        .form-action   
+          button.btn.btn-info 설문응답하기
 
   hr
   h3 Comment (#{survey.numComment})
@@ -25,7 +76,7 @@ block content
     .form-group
       label.sr-only(for='content') content
       input.form-control(name='content', size=50, placeholder='content')
-    button.btn.btn-info 설문 답변하기
+    button.btn.btn-info 의견작성
 
   hr
   a.btn.btn-default(href='/surveys') 목록

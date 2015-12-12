@@ -1,6 +1,7 @@
 extends ../layout
 
 block content
+ .container
   h1 글 작성
   
   form(action='/surveys', method='POST')
@@ -11,13 +12,26 @@ block content
       label(for='title') 설문명
       input.form-control(name='title')
     .form-group
-      label(for='type') 설문종류
-      input.form-control(name='type')
-    .form-group
+      label(for='type') 설문유형
+      select.form-control(name='type')
+        option(value='단일선택 객관식', selected) 단일선택 객관식
+        option(value='중복선택 객관식') 중복선택 객관식
+        option(value='단답형') 단답형
+        option(value='의견형') 의견형 
+     .form-group
+        label(for='category') 
+          option(value='문항1') 문항1
+          input.form-control(name='category1')
+          option(value='문항2') 문항2
+          input.form-control(name='category2')
+          option(value='문항3') 문항3
+          input.form-control(name='category3')
+          option(value='문항4') 문항4
+          input.form-control(name='category4')
+    .form-group    
       label(for='content') 설문설명
       textarea.form-control(name='content')
     .form-action
       a.btn.btn-default(href='javascript:window.history.back();') 뒤로 
       | &nbsp;
       button.btn.btn-primary(type='submit') 설문 작성
-  

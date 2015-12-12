@@ -1,21 +1,40 @@
 extends ../layout
 
 block content
+ .container
   h1 설문 목록
   
   table.table
     tr
-      th 설문 제목
+      th 설문제목
       th 설문 작성자
+      th 설문유형
       th 설문 응답
+      th 설문에 대한 의견
       th 설문 작성일
+      th
     each survey in surveys
       tr
         td
           a(href='/surveys/#{survey.id}')= survey.title
         td= survey.email
+        td= survey.type
+        td= survey.numAnswer
         td= survey.numComment
         td= moment(survey.createdAt).format('YYYY/MM/DD')
-
-
+        td
+          a.btn.btn-xs.btn-default(href='/surveys/#{survey.id}/edit') 수정
+          | 
+          a.btn.btn-xs.btn-default(data-id=survey.id, class='delete') 삭제
+          
   a.btn.btn-primary(href='/surveys/new') 설문 작성
+
+
+  script(type='text/javascript').
+    $(".delete").click(function(e) {
+      var id = $(e.currentTarget).data('id');
+      if (confirm('정말 삭제하시겠습니까?')) {
+        $("#deleteForm").attr('action', "/surveys/" + id + "?_method=DELETE").submit();          
+      }
+      return false;
+    });
