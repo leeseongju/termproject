@@ -53,31 +53,36 @@ router.get('/:id', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    Comment.find({survey: survey.id}, function(err, comments) {
-      if (err) {
-        return next(err);
-      }
-      res.render('results/show', {survey: survey, comments: comments});
-    });
-  });
-});
-router.get('/:id', function(req, res, next) {
-  Survey.findById(req.params.id, function(err, survey) {
-    if (err) {
-      return next(err);
-    }
     Answer.find({survey: survey.id}, function(err, answers) {
       if (err) {
         return next(err);
       }
-      res.render('surveys/show', {survey: survey, answers: answers});
+      res.render('results/show', {survey: survey, answers: answers});
     });
   });
 });
 
-router.post('/:id/answers', function(req, res, next) {
+router.put('/:id', function(req, res, next) {
+  Survey.findById(req.params.id, function(err, survey) {
+    if (err) {
+      return next(err);
+    }
+    if (req.body.password === survey.password) {
+      survey.email = req.body.email;
+      survey.title = req.body.title;
+      survey.content = req.body.content;
+      survey.save(function(err) {
+        res.redirect('/results/' + req.params.id);
+      });
+    }
+    res.redirect('back');
+  });
+});
+
+router.post('/:id/results', function(req, res, next) {
   var answer  = new Answer({
     survey: req.params.id,
+    email: req.body.email,
     answer: req.body.answer
   });
 

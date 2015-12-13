@@ -138,6 +138,7 @@ router.post('/:id/comments', function(req, res, next) {
 router.post('/:id/answers', function(req, res, next) {
   var answer  = new Answer({
     survey: req.params.id,
+    email: req.body.email,
     answer: req.body.answer
   });
 
@@ -149,7 +150,8 @@ router.post('/:id/answers', function(req, res, next) {
       if (err) {
         return next(err);
       }
-      res.redirect('/results/' + req.params.id);
+
+      res.redirect('/surveys/' + req.params.id);
     });
   });
 });
