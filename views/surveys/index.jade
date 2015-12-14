@@ -25,16 +25,20 @@ block content
         td
           a.btn.btn-xs.btn-default(href='/surveys/#{survey.id}/edit') 수정
           | 
-          a.btn.btn-xs.btn-default(data-id=survey.id, class='delete') 삭제
+          a.btn.btn-xs.btn-default(href='/surveys/#{survey.id}?_method=DELETE') 삭제
           
   a.btn.btn-primary(href='/surveys/new') 설문 작성
 
-
-  script(type='text/javascript').
-    $(".delete").click(function(e) {
-      var id = $(e.currentTarget).data('id');
-      if (confirm('정말 삭제하시겠습니까?')) {
-        $("#deleteForm").attr('action', "/surveys/" + id + "?_method=DELETE").submit();          
-      }
-      return false;
-    });
+  nav.center
+    ul.pagination
+      li(class=pagination.firstPage.cls): a(href=pagination.firstPage.url)
+        span(aria-hidden="true") &laquo;
+      li(class=pagination.prevPage.cls): a(href=pagination.prevPage.url)
+        span(aria-hidden="true") &lt;
+      each page in pagination.pages
+        li(class=page.cls)
+          a(href=page.url): span= page.text
+      li(class=pagination.nextPage.cls): a(href=pagination.nextPage.url)
+        span(aria-hidden="true") &gt;
+      li(class=pagination.lastPage.cls): a(href=pagination.lastPage.url)
+        span(aria-hidden="true") &raquo;

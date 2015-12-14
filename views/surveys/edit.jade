@@ -2,18 +2,18 @@ extends ../layout
 
 block content
  .container
-  h1 설문 작성
+  h1 설문 수정
   
   form(action='/surveys', method='POST')
     .form-group
       label(for='email') 이메일
-      input.form-control(name='email')
+      input.form-control(name='email',value=survey.email)
     .form-group
       label(for='title') 설문명
-      input.form-control(name='title')
+      input.form-control(name='title',value=survey.title)
     .form-group
       label(for='type') 설문유형
-      select.form-control(name='type')
+      select.form-control(name='type',value=survey.type)
         option(value='단일선택 객관식', selected) 단일선택 객관식
         option(value='중복선택 객관식') 중복선택 객관식
         option(value='단답형') 단답형
@@ -21,17 +21,17 @@ block content
      .form-group
         label(for='category') 
           option(value='문항1') 문항1
-          input.form-control(name='category1')
+          input.form-control(name='category1',value=survey.category1)
           option(value='문항2') 문항2
-          input.form-control(name='category2')
+          input.form-control(name='category2',value=survey.category2)
           option(value='문항3') 문항3
-          input.form-control(name='category3')
+          input.form-control(name='category3',value=survey.category3)
           option(value='문항4') 문항4
-          input.form-control(name='category4')
+          input.form-control(name='category4',value=survey.category3)
     .form-group    
       label(for='content') 설문설명
-      textarea.form-control(name='content')
+      textarea.form-control(name='content',value=survey.content)
     .form-action
       a.btn.btn-default(href='javascript:window.history.back();') 뒤로 
       | &nbsp;
-      button.btn.btn-primary(type='submit') 설문 작성
+      button.btn.btn-primary(type='submit') 수정

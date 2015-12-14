@@ -41,14 +41,6 @@ function validateForm(form, options) {
 }
 
 /* GET users listing. */
-router.get('/', needAuth, function(req, res, next) {
-  User.find({}, function(err, users) {
-    if (err) {
-      return next(err);
-    }
-    res.render('users/index', {users: users});
-  });
-});
 
 router.get('/new', function(req, res, next) {
   res.render('users/new', {messages: req.flash()});
@@ -146,6 +138,52 @@ router.post('/', function(req, res, next) {
         req.flash('success', '가입이 완료되었습니다. 로그인 해주세요.');
         res.redirect('/');
       }
+    });
+  });
+});
+
+function pagination(count, page, perPage, funcUrl ) {
+  var pageMargin = 3;
+  var firstPage = 1;
+  var lastPage = Math.ceil(count / perPage);
+  var prevPage = Math.max(page - 1, 1);
+  var nextPage = Math.min(page + 1, lastPage);
+  var pages = [];
+  var startPage = Math.max(page - pageMargin, 1);
+  var endPage = Math.min(startPage + (pageMargin * 2), lastPage);
+  for(var i = startPage; i <= endPage; i++) {
+    pages.push({
+      text: i,
+      cls: (page === i) ? 'active': '',
+      url: funcUrl(i)
+    });
+  }
+  return {
+    numSurveys: count,
+    firstPage: {cls: (page === 1) ? 'disabled' : '', url: funcUrl(1)},
+    prevPage: {cls: (page === 1) ? 'disabled' : '', url: funcUrl(prevPage)},
+    nextPage: {cls: (page === lastPage) ? 'disabled' : '', url: funcUrl(nextPage)},
+    lastPage: {cls: (page === lastPage) ? 'disabled' : '', url: funcUrl(lastPage)},
+    pages: pages
+  };
+}
+router.get('/',needAuth, function(req, res, next) {
+  var page = req.query.page || 1;
+  page = parseInt(page, 10);
+  var perPage = 10;
+  User.count(function(err, count) {
+    User.find({}).sort({createdAt: -1})
+    .skip((page-1)*perPage).limit(perPage)
+    .exec(function(err, users) {
+      if (err) {
+        return next(err);
+      }
+      res.render('users/index', {
+        users: users,
+        pagination: pagination(count, page, perPage, function(p) {
+          return '/users?page=' + p;
+        })
+      });
     });
   });
 });

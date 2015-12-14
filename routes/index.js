@@ -2,6 +2,7 @@ var express = require('express'),
     surveys = require('./surveys'),
     User = require('../models/User');
 var router = express.Router();
+var app = express();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

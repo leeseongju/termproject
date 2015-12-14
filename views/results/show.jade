@@ -1,8 +1,9 @@
 extends ../layout
-    
+
 block content
   .container
     h1= survey.title
+
     h3 설문응답 (#{survey.numAnswer})
       table.table
         tr
@@ -14,13 +15,15 @@ block content
               td= answer.answer
               td= answer.email
               td= moment(answer.createdAt).format('YYYY/MM/DD')
-              
+        tr
+          a.btn.btn-default(href='/results') 이전목록 
               
     form.form-inline(action='/surveys/' + survey._id + '/answers', method='POST')
       .form-group
         label.sr-only(for='email') email
       .form-group
         label.sr-only(for='content') content
-    
+
     hr
-    a.btn.btn-default(href='/results') 목록 
+    
+    
