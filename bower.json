@@ -1,9 +1,9 @@
 {
-  "name": "ex01",
+  "name": "Termproject",
   "version": "0.0.0",
-  "homepage": "https://github.com/dongseop/mju-class-wp",
+  "homepage": "https://github.com/leeseongju/termproject",
   "authors": [
-    "Dongseop Kwon <dongseop@gmail.com>"
+    "Lee seongju <dltjdwn32@gmail.com>"
   ],
   "license": "MIT",
   "ignore": [

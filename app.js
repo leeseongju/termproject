@@ -52,12 +52,15 @@ app.use('/bower_components',  express.static(path.join(__dirname, '/bower_compon
 app.use(passport.initialize());
 app.use(passport.session());
 
-configAuth(passport);
+
+
 app.use(function(req, res, next) {
   res.locals.currentUser = req.session.user;
   res.locals.flashMessages = req.flash();
   next();
 });
+
+configAuth(passport);
 
 app.use('/', routes);
 app.use('/users', users);
